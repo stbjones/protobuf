@@ -217,3 +217,16 @@ cmake/cmake-build-debug/
 
 # BenchmarkDotNet
 BenchmarkDotNet.Artifacts/
+
+# Build artifacts
+java/core/bin/.project
+java/core/bin/BUILD
+java/core/bin/generate-sources-build.xml
+java/core/bin/generate-test-sources-build.xml
+java/core/bin/pom_template.xml
+java/core/bin/pom.xml
+java/core/bin/.settings/org.eclipse.core.resources.prefs
+java/core/bin/.settings/org.eclipse.m2e.core.prefs
+java/core/bin/src/main/java/com/google/protobuf/*.class
+java/core/bin/src/test/**/*.class
+java/core/bin/src/test/**/*.proto
