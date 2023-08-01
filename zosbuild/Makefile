@@ -3,10 +3,15 @@ all: protoc
 AR=ar
 ARFLAGS=rc
 RANLIB=ranlib
+OS:=$(shell uname -I)
 ifdef XLCPP
 	CPP=$(XLCPP)
 else
-	CPP:=/home/opnzos/local/xlcpp/bin/xlclang++
+	ifeq ($(strip $(OS)),'z/OS')
+		CPP:=/bin/xlclang++
+	else
+		CPP:=/home/opnzos/local/xlcpp/bin/xlclang++
+	endif
 endif
 
 CPPFLAGS_ALL=\
@@ -53,7 +58,11 @@ CPPFLAGS_SPEC=\
 ifdef XLC
 	CC = $(XLC)
 else
-	CC:=/home/opnzos/local/xlcpp/bin/xlclang
+	ifeq ($(strip $(OS)),'z/OS')
+		CC:=/bin/xlclang
+	else
+		CC:=/home/opnzos/local/xlcpp/bin/xlclang
+	endif
 endif
 
 CFLAGS=-O3 -D_LARGEFILE64_SOURCE=1 -qrent
@@ -62,7 +71,11 @@ ME:=$(firstword $(MAKEFILE_LIST))
 ROOT_DIR:=$(shell dirname $(ME))/..
 
 ifndef BIN_DIR
-	BIN_DIR:=/home/mahdi/local/bin
+	ifeq ($(strip $(OS)),'z/OS')
+		BIN_DIR:=~/local/bin
+	else
+		BIN_DIR:=/home/mahdi/local/bin
+	endif
 endif
 
 ifndef SRC_DIR
@@ -282,26 +295,26 @@ DEPS=\
 -include $(patsubst %.o,%.d,$(OBJ_PROTOBUF))
 -include $(patsubst %.o,%.d,$(OBJ_LIBZ))
 
-vpath %.h $(ZLIB_PATH)/ $(SRC_DIR)/cmake $(ROOT_DIR)/src $(ROOT_DIR)/third_party/googletest/googlemock $(ROOT_DIR)/third_party/googletest/googletest $(ROOT_DIR)/third_party/googletest/googletest/include $(ROOT_DIR)/third_party/googletest/googlemock/include 
+vpath %.h $(ZLIB_PATH)/ $(SRC_DIR)/cmake $(ROOT_DIR)/src $(ROOT_DIR)/third_party/googletest/googlemock $(ROOT_DIR)/third_party/googletest/googletest $(ROOT_DIR)/third_party/googletest/googletest/include $(ROOT_DIR)/third_party/googletest/googlemock/include
 vpath %.cc $(SRC_DIR)/ $(SRC_DIR)/google/protobuf/ $(SRC_DIR)/google/protobuf/io/ $(SRC_DIR)/google/protobuf/stubs/ $(SRC_DIR)/google/protobuf/util/ $(SRC_DIR)/google/protobuf/util/internal/ $(SRC_DIR)/google/protobuf/compiler/ $(SRC_DIR)/google/protobuf/compiler/python/ $(SRC_DIR)/google/protobuf/compiler/ruby/ $(SRC_DIR)/google/protobuf/compiler/cpp/ $(SRC_DIR)/google/protobuf/compiler/csharp/ $(SRC_DIR)/google/protobuf/compiler/java/ $(SRC_DIR)/google/protobuf/compiler/js/ $(SRC_DIR)/google/protobuf/compiler/objectivec/  $(SRC_DIR)/google/protobuf/compiler/php/  $(SRC_DIR)/google/protobuf/compiler/
-vpath %.cpp $(SRC_DIR)/ 
-vpath %.c $(ZLIB_PATH)/  
+vpath %.cpp $(SRC_DIR)/
+vpath %.c $(ZLIB_PATH)/
 
-protoc:  libz.a main.o libprotoc.a libprotobuf.a 
-	 $(CPP) $(CPPFLAGS_ALL) $(CPPFLAGS_SPEC) -qmakedep -o $@ $^ 
+protoc:  libz.a main.o libprotoc.a libprotobuf.a
+	 $(CPP) $(CPPFLAGS_ALL) $(CPPFLAGS_SPEC) -qmakedep -o $@ $^
 
 %.o: %.cc $(ME)
-	$(CPP) $(CPPFLAGS_ALL) $(CPPFLAGS_SPEC) $(CPPFLAGS_COMPILE) $< -o $@ $(DEPS) 
+	$(CPP) $(CPPFLAGS_ALL) $(CPPFLAGS_SPEC) $(CPPFLAGS_COMPILE) $< -o $@ $(DEPS)
 
 libprotobuf.a: $(OBJ_PROTOBUF)
-	$(AR) $(ARFLAGS) $@ $(OBJ_PROTOBUF)	
+	$(AR) $(ARFLAGS) $@ $(OBJ_PROTOBUF)
 
 libprotoc.a: $(OBJ_PROTOC)
 	$(AR) $(ARFLAGS) $@ $(OBJ_PROTOC)
 
 
 $(ZLIB_PATH)/%.o: %.c
-	$(CC) $(CFLAGS) $< -o $@	
+	$(CC) $(CFLAGS) $< -o $@
 
 $(SRC_LIBZ):
 	git clone https://github.com/madler/zlib
