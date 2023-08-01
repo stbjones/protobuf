@@ -75,6 +75,7 @@ ifndef BIN_DIR
 		BIN_DIR:=~/local/bin
 	else
 		BIN_DIR:=/home/mahdi/local/bin
+	endif
 endif
 
 ifndef SRC_DIR
