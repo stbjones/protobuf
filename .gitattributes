@@ -1,1 +1,12 @@
 *   git-encoding=UTF-8   zos-working-tree-encoding=UTF-8
+*.pb                                             git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+*.snk                                            git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+objectivec/Tests/golden_message                  git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+objectivec/Tests/golden_packed_fields_message    git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+*.php                                            git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/bad_utf8_string     git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/golden_message      git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/golden_message_maps                 git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/golden_message_oneof_implemented    git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/golden_message_proto3               git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
+src/google/protobuf/testdata/golden_packed_fields_message        git-encoding=UTF-8 zos-working-tree-encoding=UTF-8
