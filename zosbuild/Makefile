@@ -11,6 +11,7 @@ else
 		CPP:=/bin/xlclang++
 	else
 		CPP:=/home/opnzos/local/xlcpp/bin/xlclang++
+	endif
 endif
 
 CPPFLAGS_ALL=\
@@ -61,6 +62,7 @@ else
 		CC:=/bin/xlclang
 	else
 		CC:=/home/opnzos/local/xlcpp/bin/xlclang
+	endif
 endif
 
 CFLAGS=-O3 -D_LARGEFILE64_SOURCE=1 -qrent
